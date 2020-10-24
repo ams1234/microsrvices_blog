@@ -7,9 +7,9 @@ export default () => {
     const [posts, setPosts] = useState({})
 
     const fetchPosts = () => {
-        axios.get("http://localhost:3055/posts").then((res) => {
+        console.log("getting posts from query service instead of from posts service")
+        axios.get("http://localhost:4002/posts").then((res) => {
             setPosts(res.data)
-            //console.log(posts)
         }).catch((err) => {
             console.log(err)
         })
@@ -25,7 +25,7 @@ export default () => {
             <div className='card' key={ele.id} style={{ width: "30%", alignSelf: 'center', margin: '20px' }}>
                 <div className='card-body'>
                     <h2 style={{ fontFamily: '-moz-initial', 'alignSelf': 'center' }}>{ele.title}</h2>
-                    <ListComments postId={ele.id} />
+                    <ListComments comments={ele.comments} />
                     <CommentCreate postId={ele.id} />
                 </div>
             </div>
