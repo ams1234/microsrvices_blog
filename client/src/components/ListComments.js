@@ -5,7 +5,8 @@ export default ({ comments }) => {
         <ul>
             {comments.map((comment) => {
                 return (
-                    <li key={comment.id}>{comment.content}</li>
+                    <li key={comment.id}>{comment.status === 'approved' ? comment.content : `You Comment is being ${comment.status}`}</li>
+
                 )
             })}
         </ul>
