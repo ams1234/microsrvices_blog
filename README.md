@@ -21,6 +21,7 @@ Request | Route | request body | response
 --------|-------|--------------| ---------
 get     | /comments| None | {postid:[{id1,comment1},{id2, comment2}]}
 post    | /comments | {id:commentId,content:'comment text',postId:postid} | {postid:[{id1,comment1},{id2, comment2}]
+post     | /events  | {type:CommentUpdated, data:comentObj} | {}
 
 ## 3. Query Service 
 Request  | Route  | request body    |  response
@@ -35,6 +36,13 @@ event service as well.
 Request  | Route  | request body    |  response
 ---------|---------|----------------|-----------------
 post      | /events  | {type:commentCreated|postCreated, data:commmentobj | postobj}| {status:'ok'}
+
+## 5 Comment Moderation service 
+Now if we want to moderate some comments on the comment service we make use of the moderation service, so when the comment is created , the comment service sends the CommentCreated event to all the other services , which includes comment moderation service as well via event bus. This service reads the post request and if the type of the event is CommentCreated, it has the logic for checking if we have to allow the comment or reject it. After doing it , it sends the event commentModerated to Comments service via event bus through axios call , where the comment service after reading the post call from the event bus changes the status to comment updated. 
+Request  | Route  | request body    |  response
+---------|---------|----------------|-----------------
+post     | /events  | {type:CommentModerated, data:comentObj} | {}
+
 
 ## The flow 
 
